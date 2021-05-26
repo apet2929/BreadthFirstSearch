@@ -17,40 +17,46 @@ public class Main extends ApplicationAdapter {
 	boolean run;
 	boolean found;
 	ShapeRenderer renderer;
+	Entity test;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		grid = new Grid(25, 25, 20, 20);
+		grid = new Grid(0, 0, 10, 10);
 		run = false;
 		found = false;
 		renderer = new ShapeRenderer();
 		renderer.setAutoShapeType(true);
+		test = new Entity(0, 0);
 	}
 
 	@Override
 	public void render () {
 		ScreenUtils.clear(1, 1, 1, 1);
 
-		if(Gdx.input.justTouched()){
-			int mouseX = Gdx.input.getX();
-			int mouseY = Gdx.input.getY();
-			int gridX = mouseX / Grid.TILE_WIDTH;
-			int gridY = mouseY / Grid.TILE_HEIGHT;
-			grid.addWall(gridX,39 - gridY);
-		}
+		test.moveTo(new Tile(10, 10), Gdx.graphics.getDeltaTime());
+		System.out.println(test.getTileFromPosition());
 
-		if((Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_RIGHT) || run) && !found) {
-			found = grid.breadthFirst() != null;
-		}
-		if(Gdx.input.isKeyJustPressed(Input.Keys.I)) {
-			grid.printQueue();
-		}
-		if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-			run = true;
-		}
-
+//		if(Gdx.input.justTouched()){
+//			int mouseX = Gdx.input.getX();
+//			int mouseY = Gdx.input.getY();
+//			int gridX = mouseX / Grid.TILE_WIDTH;
+//			int gridY = mouseY / Grid.TILE_HEIGHT;
+//			grid.addWall(gridX,39 - gridY);
+//		}
+//
+//		if((Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_RIGHT) || run) && !found) {
+//			found = grid.breadthFirst() != null;
+//		}
+//		if(Gdx.input.isKeyJustPressed(Input.Keys.I)) {
+//			grid.printQueue();
+//		}
+//		if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+//			run = true;
+//		}
+//
 		grid.render(renderer);
+		test.render(renderer);
 
 	}
 	

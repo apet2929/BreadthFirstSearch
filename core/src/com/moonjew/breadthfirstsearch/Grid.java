@@ -1,19 +1,15 @@
 package com.moonjew.breadthfirstsearch;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Queue;
 
-import java.util.Collections;
-import java.util.Iterator;
-
 public class Grid {
-    public static final int TILE_WIDTH = 20;
-    public static final int TILE_HEIGHT = 20;
+    public static final int TILE_WIDTH = 40;
+    public static final int TILE_HEIGHT = 40;
 
-    private final int mapWidth, mapHeight;
+    public static final int MAP_WIDTH = Main.SCREEN_WIDTH / TILE_WIDTH;
+    public static final int MAP_HEIGHT = Main.SCREEN_HEIGHT / TILE_HEIGHT;
 
     private Tile[][] tiles;
     private Tile start;
@@ -25,13 +21,12 @@ public class Grid {
     boolean visitedAll;
 
     public Grid(int startX, int startY, int endX, int endY) {
-        mapWidth = Main.SCREEN_WIDTH / TILE_WIDTH;
-        mapHeight = Main.SCREEN_HEIGHT / TILE_HEIGHT;
-        tiles = new Tile[mapWidth][mapHeight];
-        visited = new boolean[mapWidth][mapHeight];
+
+        tiles = new Tile[MAP_WIDTH][MAP_HEIGHT];
+        visited = new boolean[MAP_WIDTH][MAP_HEIGHT];
         visitedAll = false;
-        for(int i = 0; i < mapWidth; i++){
-            for(int j = 0; j < mapHeight; j++){
+        for(int i = 0; i < MAP_WIDTH; i++){
+            for(int j = 0; j < MAP_HEIGHT; j++){
                 tiles[i][j] = new Tile(i, j);
                 visited[i][j] = false;
             }
@@ -44,7 +39,7 @@ public class Grid {
         queue = new Queue<>();
         queueBuffer = new Queue<>();
         addToQueue(start);
-
+        tiles[10][10].type = Tile.Type.WALL;
     }
 
     public void render(ShapeRenderer renderer){
@@ -204,7 +199,7 @@ public class Grid {
         renderer.rect(tile.x * TILE_WIDTH, tile.y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT);
     }
     public boolean isValid(int x, int y){
-        boolean inBounds = x < mapWidth && x >= 0 && y < mapHeight && y >= 0;
+        boolean inBounds = x < MAP_WIDTH && x >= 0 && y < MAP_HEIGHT && y >= 0;
         return inBounds && !visited[x][y];
     }
     public Tile getTile(int x, int y){

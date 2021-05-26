@@ -7,13 +7,12 @@ import com.badlogic.gdx.utils.Queue;
 
 public class Entity {
     public Vector2 position;
-    public static final int WIDTH = 32;
-    public static final int HEIGHT = 32;
-    public static final int MOVESPEED = 20;
+    public static final int WIDTH = 40;
+    public static final int HEIGHT = 40;
+    public static final int MOVESPEED = 200;
 
     public Entity(int x, int y){
         position = new Vector2(x, y);
-
     }
 
     public void update(Grid grid, float deltaTime){
@@ -35,5 +34,29 @@ public class Entity {
             position.x += nextPosition.x * deltaTime * MOVESPEED;
             position.y += nextPosition.y * deltaTime * MOVESPEED;
         }
+    }
+
+    public void moveRight(float deltaTime){
+        position.x += MOVESPEED * deltaTime;
+    }
+    public void moveTo(Tile tile, float deltaTime){
+        Tile pos = getTileFromPosition();
+
+        if(pos.x > tile.x){
+            position.x -= MOVESPEED * deltaTime;
+        } else if (pos.x < tile.x){
+            position.x += MOVESPEED * deltaTime;
+        }
+        if(pos.y > tile.y){
+            position.y -= MOVESPEED * deltaTime;
+        } else if (pos.y < tile.y){
+            position.y += MOVESPEED * deltaTime;
+        }
+    }
+
+    public Tile getTileFromPosition(){
+        int x = (int) (position.x / Grid.TILE_WIDTH);
+        int y = (int) (position.y / Grid.TILE_HEIGHT);
+        return new Tile(x, y);
     }
 }
